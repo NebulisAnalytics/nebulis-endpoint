@@ -6,8 +6,7 @@ import cors from 'cors';
 import fs from 'fs';
 import colors from 'colors';
 import messages from './messages';
-
-const spawn = require('child_process').spawnSync;
+import git from './git';
 
 const app = new Express();
 const server = new http.Server(app);
@@ -22,14 +21,18 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cors());
 
-server.listen(3030, () => {
+server.listen(9986, () => {
   messages.logo();
+  const out = process.stdout;
 
-  const ls = spawn('git', ['--git-dir=.nebugit', 'status']);
-
-  if (ls.stderr.toString().indexOf('Not a git repository') >= 0) {
-    console.log('Initializing new endpoint...');
+  if (git.status().stderr.toString().indexOf('Not a git repository') >= 0) {
+    out.write('Initializing endpoint storage...');
+    const repo = git.init();
   }
+
+  git.commit();
+
+  // out.write(git.status().stderr.toString());
 
   // console.log( `stderr: ${ls.stderr.toString()}` );
   // console.log( `stdout: ${ls.stdout.toString()}` );
@@ -38,5 +41,5 @@ server.listen(3030, () => {
 
   // git --git-dir=.nebugit --work-tree=. status
 
-  console.log('Nebulis endpoint is connected');
+  out.write('\nNebulis endpoint is connected\n'.yellow);
 });
