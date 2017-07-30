@@ -8,25 +8,29 @@ const outErr = process.stderr;
 const git = {
   init: () => { 
     out.write('Initializing endpoint storage... '); 
-    return handler(spawn('git', [GIT_DIR, WORK_TREE, 'init']), false); 
+    return [
+      handler(spawn('git', [GIT_DIR, WORK_TREE, 'init'])),
+      // handler(spawn('git', [GIT_DIR, WORK_TREE, 'branch', 'nebutrack'])), 
+      // handler(spawn('git', [GIT_DIR, WORK_TREE, 'checkout', 'nebutrack'])), 
+    ]; 
   },
   status: () => {
     out.write('Checking Storage... '); 
     return handler(spawn('git', [GIT_DIR, WORK_TREE, 'status']), false, false); },
   stage: () => {
     out.write('Preparing Stage... '); 
-    return handler(spawn('git', [GIT_DIR, WORK_TREE, 'add', '.']), false); 
+    return handler(spawn('git', [GIT_DIR, WORK_TREE, 'add', '.'])); 
   },
-  commit: () => {
-    out.write('Saving Changes... '); 
-    return handler(spawn('git', [GIT_DIR, WORK_TREE, 'commit', '-m', Date()]), false); 
+  commit: (verbose = false, errors = false) => {
+    out.write('Checking for changes... '); 
+    return handler(spawn('git', [GIT_DIR, WORK_TREE, 'commit', '-m', Date()]), verbose, errors); 
   },
   push: () => {
     return handler(spawn('git', [GIT_DIR, WORK_TREE, 'push'])); 
   },
 };
 
-const handler = (proc, verbose = true, errors = true) => {
+const handler = (proc, verbose = false, errors = true) => {
   if (proc.stderr.length < 1) {
     verbose ? out.write(` ${'[DONE]\n'.magenta} ${proc.stdout.toString().red}`) : out.write(' [DONE]\n'.magenta);
   } else {

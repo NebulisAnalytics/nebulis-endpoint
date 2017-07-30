@@ -6,7 +6,8 @@
   "version": "1.0.0",
   "description": "Endpoint for Nebulis code monitoring",
   "scripts": {
-    "nebulis-endpoint": "NODE_ENV=development nodemon --watch . bin/endpoint.js"
+    "nebulis-dev": "NODE_ENV=development nodemon --watch . bin/endpoint.js",
+    "nebulis-prod": "node bin/endpoint.js"
   },
   "license": "MIT",
   "authors": [

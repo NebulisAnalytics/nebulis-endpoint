@@ -29,12 +29,17 @@ if (git.status().stderr.toString().indexOf('Not a git repository') >= 0) {
   git.commit();
 }
 
-
 fs.watch(__dirname, function (event, filename) {
   if (filename) {
     out.write('\nFile was modified: '.blue + filename.blue + '\n');
     git.stage();
-    git.commit();
+    const repo = git.commit();
+    if (repo.stdout.toString().indexOf('nothing to commit, working tree clean') === -1) {
+      out.write(repo.stdout.toString().blue);
+      out.write('Syncing endpoint to server... ');
+    } else {
+      out.write('No changes found\n'.blue);
+    }
   } else {
     console.log('filename not provided');
   }
