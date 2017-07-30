@@ -9,7 +9,6 @@ import messages from './messages';
 import git from './git';
 
 const app = new Express();
-const server = new http.Server(app);
 const logPath = `${__dirname}/../logs/api.log`;
 const accessLogStream = fs.createWriteStream(logPath, { flags: 'a' });
 
@@ -21,25 +20,34 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cors());
 
-server.listen(9986, () => {
-  messages.logo();
-  const out = process.stdout;
-
-  if (git.status().stderr.toString().indexOf('Not a git repository') >= 0) {
-    out.write('Initializing endpoint storage...');
-    const repo = git.init();
-  }
-
+messages.logo();
+const out = process.stdout;
+if (git.status().stderr.toString().indexOf('Not a git repository') >= 0) {
+  out.write('[NEW ENDPOINT DETECTED]\n'.red);
+  git.init();
+  git.stage();
   git.commit();
+}
 
-  // out.write(git.status().stderr.toString());
 
-  // console.log( `stderr: ${ls.stderr.toString()}` );
-  // console.log( `stdout: ${ls.stdout.toString()}` );
-
-  // git --git-dir=.nebugit --work-tree=. init
-
-  // git --git-dir=.nebugit --work-tree=. status
-
-  out.write('\nNebulis endpoint is connected\n'.yellow);
+fs.watch(__dirname, function (event, filename) {
+  if (filename) {
+    out.write('\nFile was modified: '.blue + filename.blue + '\n');
+    git.stage();
+    git.commit();
+  } else {
+    console.log('filename not provided');
+  }
 });
+
+// out.write(git.status().stderr.toString());
+
+// console.log( `stderr: ${ls.stderr.toString()}` );
+// console.log( `stdout: ${ls.stdout.toString()}` );
+
+// git --git-dir=.nebugit --work-tree=. init
+
+// git --git-dir=.nebugit --work-tree=. status
+
+out.write('\nNebulis endpoint is connected\n'.yellow);
+

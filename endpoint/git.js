@@ -10,18 +10,18 @@ const git = {
     out.write('Initializing endpoint storage... '); 
     return handler(spawn('git', [GIT_DIR, WORK_TREE, 'init']), false); 
   },
-  status: () => { 
+  status: () => {
     out.write('Checking Storage... '); 
     return handler(spawn('git', [GIT_DIR, WORK_TREE, 'status']), false, false); },
-  stage: () => { 
+  stage: () => {
     out.write('Preparing Stage... '); 
     return handler(spawn('git', [GIT_DIR, WORK_TREE, 'add', '.']), false); 
   },
-  commit: () => { 
+  commit: () => {
     out.write('Saving Changes... '); 
-    return handler(spawn('git', [GIT_DIR, WORK_TREE, 'commit', '-m', 'date']), false); 
+    return handler(spawn('git', [GIT_DIR, WORK_TREE, 'commit', '-m', Date()]), false); 
   },
-  push: () => { 
+  push: () => {
     return handler(spawn('git', [GIT_DIR, WORK_TREE, 'push'])); 
   },
 };
