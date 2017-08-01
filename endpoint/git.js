@@ -2,6 +2,8 @@ const spawn = require('child_process').spawnSync;
 
 const GIT_DIR = '--git-dir=.nebugit';
 const WORK_TREE = '--work-tree=.';
+const CONFIG_DIR = __dirname + `./../.nebulis.json`;
+
 const out = process.stdout;
 const outErr = process.stderr;
 
@@ -13,7 +15,7 @@ const git = {
       handler(spawn('git', [GIT_DIR, WORK_TREE, 'checkout', '-b', 'nebutrack']), false, false), 
     ]; 
   },
-  status: () => {
+  status: () => { 
     out.write('Checking Storage... '); 
     return handler(spawn('git', [GIT_DIR, WORK_TREE, 'status']), false, false); },
   stage: () => {
@@ -25,7 +27,10 @@ const git = {
     return handler(spawn('git', [GIT_DIR, WORK_TREE, 'commit', '-m', Date()]), verbose, errors); 
   },
   push: () => {
-    return handler(spawn('git', [GIT_DIR, WORK_TREE, 'push'])); 
+    out.write('Syncing endpoint to server... ');
+    // config = require(CONFIG_DIR);
+    // console.log(config); 
+    // return handler(spawn('git', [GIT_DIR, WORK_TREE, 'push'])); 
   },
 };
 

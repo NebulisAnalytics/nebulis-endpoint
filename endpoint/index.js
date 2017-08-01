@@ -25,9 +25,10 @@ const out = process.stdout;
 if (git.status().stderr.toString().indexOf('Not a git repository') >= 0) {
   out.write('[NEW ENDPOINT DETECTED]\n'.red);
   git.init();
-  git.stage();
-  git.commit();
 }
+
+git.stage();
+git.commit();
 
 fs.watch(__dirname, function (event, filename) {
   if (filename) {
@@ -36,7 +37,7 @@ fs.watch(__dirname, function (event, filename) {
     const repo = git.commit();
     if (repo.stdout.toString().indexOf('nothing to commit, working tree clean') === -1) {
       out.write(repo.stdout.toString().blue);
-      out.write('Syncing endpoint to server... ');
+      git.push();
     } else {
       out.write('No changes found\n'.blue);
     }
@@ -44,15 +45,6 @@ fs.watch(__dirname, function (event, filename) {
     console.log('filename not provided');
   }
 });
-
-// out.write(git.status().stderr.toString());
-
-// console.log( `stderr: ${ls.stderr.toString()}` );
-// console.log( `stdout: ${ls.stdout.toString()}` );
-
-// git --git-dir=.nebugit --work-tree=. init
-
-// git --git-dir=.nebugit --work-tree=. status
 
 out.write('\nNebulis endpoint is connected\n'.yellow);
 
