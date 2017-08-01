@@ -8,6 +8,7 @@
   "scripts": {
     "nebulis-dev": "NODE_ENV=development nodemon --watch . bin/endpoint.js",
     "nebulis-prod": "node bin/endpoint.js"
+    "test": "NODE_ENV=test mocha --recursive ./test/config.js ./test/"
   },
   "license": "MIT",
   "authors": [
