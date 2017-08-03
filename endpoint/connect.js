@@ -1,4 +1,5 @@
 import fs from 'fs';
+import main from './index'
 var http = require('http');
 
 const connect = {
@@ -11,12 +12,18 @@ const connect = {
     };
     console.log(options);
     var req = http.request(options, function(res) {
+      let body = '';
       // console.log('STATUS: ' + res.statusCode);
       // console.log('HEADERS: ' + JSON.stringify(res.headers));
       res.setEncoding('utf8');
       res.on('data', function (chunk) {
-        console.log('BODY: ' + chunk);
+        body += chunk;
       });
+      res.on('end', () => {
+        console.log('BODY: ' + body);
+        config.remote = JSON.parse(body).remote;
+        main();
+      })
     });
 
     req.on('error', function(e) {

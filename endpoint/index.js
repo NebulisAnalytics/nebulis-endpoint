@@ -14,29 +14,35 @@ let config = require(CONFIG_DIR);
 connect.init(config);
 messages.logo();
 
-const out = process.stdout;
-if (git.status().stderr.toString().indexOf('Not a git repository') >= 0) {
-  out.write('[NEW ENDPOINT DETECTED]\n'.red);
-  git.init();
+const main = () => {
+  console.log(config);
+
+  const out = process.stdout;
+  if (git.status().stderr.toString().indexOf('Not a git repository') >= 0) {
+    out.write('[NEW ENDPOINT DETECTED]\n'.red);
+    git.init();
+  }
+
+  git.stage();
+  git.commit();
+
+  fs.watch(__dirname, function (event, filename) {
+    if (filename) {
+      out.write('\nFile was modified: '.blue + filename.blue + '\n');
+      git.stage();
+      const repo = git.commit();
+      if (repo.stdout.toString().indexOf('nothing to commit, working tree clean') === -1) {
+        out.write(repo.stdout.toString().blue);
+        git.push();
+      } else {
+        out.write('No changes found\n'.blue);
+      }
+    } else {
+      console.log('filename not provided');
+    }
+  });
+
+  out.write('\nNebulis endpoint is connected\n'.yellow);
 }
 
-git.stage();
-git.commit();
-
-fs.watch(__dirname, function (event, filename) {
-  if (filename) {
-    out.write('\nFile was modified: '.blue + filename.blue + '\n');
-    git.stage();
-    const repo = git.commit();
-    if (repo.stdout.toString().indexOf('nothing to commit, working tree clean') === -1) {
-      out.write(repo.stdout.toString().blue);
-      git.push();
-    } else {
-      out.write('No changes found\n'.blue);
-    }
-  } else {
-    console.log('filename not provided');
-  }
-});
-
-out.write('\nNebulis endpoint is connected\n'.yellow);
+export { main as default };
