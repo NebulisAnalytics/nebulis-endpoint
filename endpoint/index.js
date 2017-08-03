@@ -1,26 +1,19 @@
-import Express from 'express';
 import http from 'http';
 import morgan from 'morgan';
-import bodyParser from 'body-parser';
-import cors from 'cors';
 import fs from 'fs';
 import colors from 'colors';
 import messages from './messages';
 import git from './git';
+import connect from './connect';
 
-const app = new Express();
 const logPath = `${__dirname}/../logs/api.log`;
 const accessLogStream = fs.createWriteStream(logPath, { flags: 'a' });
+const CONFIG_DIR = __dirname + `/../.nebulis.json`;
+let config = require(CONFIG_DIR);
 
-app.set('trust proxy', 1);
-app.use(morgan('combined', { stream: accessLogStream }));
-app.use(bodyParser.urlencoded({
-  extended: false,
-}));
-app.use(bodyParser.json());
-app.use(cors());
-
+connect.init(config);
 messages.logo();
+
 const out = process.stdout;
 if (git.status().stderr.toString().indexOf('Not a git repository') >= 0) {
   out.write('[NEW ENDPOINT DETECTED]\n'.red);
@@ -47,4 +40,3 @@ fs.watch(__dirname, function (event, filename) {
 });
 
 out.write('\nNebulis endpoint is connected\n'.yellow);
-
