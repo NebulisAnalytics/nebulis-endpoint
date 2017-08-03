@@ -10,7 +10,7 @@ const connect = {
       path: '/api/endpoints/establish',
       method: 'POST',
     };
-    console.log(options);
+    
     var req = http.request(options, function(res) {
       let body = '';
       // console.log('STATUS: ' + res.statusCode);
@@ -20,7 +20,7 @@ const connect = {
         body += chunk;
       });
       res.on('end', () => {
-        console.log('BODY: ' + body);
+        // console.log('BODY: ' + body);
         config.remote = JSON.parse(body).remote;
         main();
       })

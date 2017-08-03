@@ -9,18 +9,18 @@ import connect from './connect';
 const logPath = `${__dirname}/../logs/api.log`;
 const accessLogStream = fs.createWriteStream(logPath, { flags: 'a' });
 const CONFIG_DIR = __dirname + `/../.nebulis.json`;
+const out = process.stdout;
 let config = require(CONFIG_DIR);
 
 connect.init(config);
 messages.logo();
 
 const main = () => {
-  console.log(config);
-
-  const out = process.stdout;
+  out.write('\nNebulis endpoint is connected\n'.yellow);
+  
   if (git.status().stderr.toString().indexOf('Not a git repository') >= 0) {
     out.write('[NEW ENDPOINT DETECTED]\n'.red);
-    git.init();
+    git.init(config.remote);
   }
 
   git.stage();
@@ -33,7 +33,7 @@ const main = () => {
       const repo = git.commit();
       if (repo.stdout.toString().indexOf('nothing to commit, working tree clean') === -1) {
         out.write(repo.stdout.toString().blue);
-        git.push();
+        git.push(config);
       } else {
         out.write('No changes found\n'.blue);
       }
@@ -42,7 +42,6 @@ const main = () => {
     }
   });
 
-  out.write('\nNebulis endpoint is connected\n'.yellow);
 }
 
 export { main as default };
