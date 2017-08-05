@@ -27,3 +27,5 @@ coverage
 benchmarks/graphs
 .nebugit
 /lib
+/yarn.lock
+/package-lock.json
