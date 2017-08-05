@@ -7,6 +7,25 @@ Nebulis provides realtime analytics and reporting for coding projects. With Nebu
 ## Installation
 ---
 
+The endpoint cleanly embeds into a project you are working on and monitors activity.
+
+To install simply run
 ```
 npm install --save nebulis-endpoint
 ```
+
+Nebulis requires only one file for configuration. In your project root add a .nebulis file which contains this structure:
+```
+{
+  "server": "myserver.com",
+  "port": 443
+}
+```
+This will point the endpoint at your Nebulis server.
+
+Then in you project file add:
+```
+const nebulis = require('nebulis-endpoint');
+```
+
+when the project is run, the server will run automatically.
