@@ -21,8 +21,14 @@ const connect = {
       });
       res.on('end', () => {
         // console.log('BODY: ' + body);
+        const id = JSON.parse(body).id;
         config.remote = JSON.parse(body).remote;
-        main();
+        if(id !== undefined) {
+          console.log('Endpoint ID: ' + id);
+          main();
+        } else {
+          console.log('Endpoint Error');
+        }
       })
     });
 
