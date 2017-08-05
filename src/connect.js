@@ -1,5 +1,5 @@
 import fs from 'fs';
-import main from './index'
+import main from './main'
 var http = require('http');
 
 const connect = {

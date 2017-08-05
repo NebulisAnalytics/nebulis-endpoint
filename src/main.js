@@ -1,5 +1,4 @@
 import http from 'http';
-import morgan from 'morgan';
 import fs from 'fs';
 import colors from 'colors';
 import messages from './messages';
