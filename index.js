@@ -1,1 +1,1 @@
-module.exports.nebulis = require('./lib/load');
+module.exports.nebulis = require('./lib/main');

@@ -37,7 +37,7 @@ const connect = {
     });
 
     // write data to request body
-    let str = fs.readFileSync(__dirname + '/../.git/config').toString();
+    let str = fs.readFileSync('./.git/config').toString();
     str = str.substring(str.indexOf('git@github.com:')+15, str.indexOf('.git'))
     const gitConfig = str.split('/');
 
