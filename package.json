@@ -3,7 +3,7 @@
   "engines": {
     "node": ">=5.0"
   },
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "Endpoint for Nebulis code monitoring",
   "main": "index.js",
   "scripts": {
@@ -34,6 +34,7 @@
     "mocha": "^3.5.0"
   },
   "dependencies": {
+    "app-root-path": "^2.0.1",
     "babel-core": "^6.25.0",
     "babel-polyfill": "^6.23.0",
     "colors": "^1.1.2",
