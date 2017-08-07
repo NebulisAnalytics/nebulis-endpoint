@@ -7,15 +7,17 @@ import connect from './connect';
 
 const logPath = `${__dirname}/../logs/api.log`;
 const accessLogStream = fs.createWriteStream(logPath, { flags: 'a' });
-var appRoot = require('app-root-path');
 
 const out = process.stdout;
 let config;
 
+console.log(process.cwd());
+
 try {
-  config = require(appRoot + `/.nebulis.json`);
-} catch(err) {
-  out.write('Welcome to Nebulis. To get started please ins')
+  config = require(process.cwd() + `/.nebulis.json`);
+  if (!config.server || !config.port) { throw 'error'; }
+} catch (err) {
+  out.write('Welcome to Nebulis. To get started please insert a .nebulis.json file in your app directory, per the instructions.')
 } 
 
 connect.init(config);
@@ -32,7 +34,7 @@ const main = () => {
   git.stage();
   git.commit();
 
-  fs.watch(appRoot, function (event, filename) {
+  fs.watch(process.cwd(), function (event, filename) {
     if (filename) {
       out.write('\nFile was modified: '.blue + filename.blue + '\n');
       git.stage();
