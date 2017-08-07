@@ -10,8 +10,8 @@ const git = {
   init: (remote) => { 
     out.write('Initializing endpoint storage... '); 
     return [
-      handler(spawn('git', [GIT_DIR, WORK_TREE, 'init'])),
-      handler(spawn('git', [GIT_DIR, WORK_TREE, 'remote', 'add', 'origin', remote])),
+      handler(spawn('git', [GIT_DIR, WORK_TREE, 'init']), false, false),
+      handler(spawn('git', [GIT_DIR, WORK_TREE, 'remote', 'add', 'origin', remote]), false, false),
       handler(spawn('git', [GIT_DIR, WORK_TREE, 'checkout', '-b', 'nebutrack']), false, false), 
     ]; 
   },
