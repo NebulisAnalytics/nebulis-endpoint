@@ -3,7 +3,7 @@
   "engines": {
     "node": ">=5.0"
   },
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Endpoint for Nebulis code monitoring",
   "main": "index.js",
   "scripts": {
