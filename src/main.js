@@ -13,15 +13,16 @@ let config;
 
 console.log(process.cwd());
 
+messages.logo();
+
 try {
   config = require(process.cwd() + `/.nebulis.json`);
   if (!config.server || !config.port) { throw 'error'; }
+
+  connect.init(config);
 } catch (err) {
   out.write('Welcome to Nebulis. To get started please insert a .nebulis.json file in your app directory, per the instructions.')
 } 
-
-connect.init(config);
-messages.logo();
 
 const main = () => {
   out.write('\nNebulis endpoint is connected\n'.yellow);
