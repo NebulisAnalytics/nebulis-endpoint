@@ -1,4 +1,4 @@
-# Nebulis Coding Analytics Endpoint &middot; ![TravisCI Status](https://img.shields.io/travis/NebulisAnalytics/nebulis-endpoint.svg)
+# Nebulis Coding Analytics Endpoint &middot; ![TravisCI Status](https://img.shields.io/travis/NebulisAnalytics/nebulis-endpoint.svg) [![Coverage Status](https://coveralls.io/repos/github/NebulisAnalytics/nebulis-endpoint/badge.svg?branch=master)](https://coveralls.io/github/NebulisAnalytics/nebulis-endpoint?branch=master) [![Known Vulnerabilities](https://snyk.io/test/github/NebulisAnalytics/nebulis-endpoint/badge.svg)](https://snyk.io/test/github/NebulisAnalytics/nebulis-endpoint)
 
 This is the endpoint for tracking Nebulis coding projects.
 
@@ -7,6 +7,25 @@ Nebulis provides realtime analytics and reporting for coding projects. With Nebu
 ## Installation
 ---
 
+The endpoint cleanly embeds into a project you are working on and monitors activity.
+
+To install simply run
 ```
 npm install --save nebulis-endpoint
 ```
+
+Nebulis requires only one file for configuration. In your project root add a .nebulis file which contains this structure:
+```
+{
+  "server": "myserver.com",
+  "port": 443
+}
+```
+This will point the endpoint at your Nebulis server.
+
+Then in you project file add:
+```
+const nebulis = require('nebulis-endpoint');
+```
+
+when the project is run, the server will run automatically.
