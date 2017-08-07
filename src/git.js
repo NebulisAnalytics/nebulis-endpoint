@@ -12,7 +12,7 @@ const git = {
     return [
       handler(spawn('git', [GIT_DIR, WORK_TREE, 'init']), false, false),
       handler(spawn('git', [GIT_DIR, WORK_TREE, 'remote', 'add', 'origin', remote]), false, false),
-      handler(spawn('git', [GIT_DIR, WORK_TREE, 'checkout', '-b', 'nebutrack']), false, false), 
+      // handler(spawn('git', [GIT_DIR, WORK_TREE, 'checkout', '-b', 'nebutrack']), false, false), 
     ]; 
   },
   status: () => { 
