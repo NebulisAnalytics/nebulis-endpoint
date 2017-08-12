@@ -4,6 +4,7 @@ import colors from 'colors';
 import messages from './messages';
 import git from './git';
 import connect from './connect';
+import watch from 'node-watch';
 
 const logPath = `${__dirname}/../logs/api.log`;
 const accessLogStream = fs.createWriteStream(logPath, { flags: 'a' });
@@ -35,7 +36,7 @@ const main = () => {
   git.stage();
   git.commit();
 
-  fs.watch(process.cwd(), function (event, filename) {
+  watch(process.cwd(), { recursive: true }, function(event, filename) {
     if (filename) {
       out.write('\nFile was modified: '.blue + filename.blue + '\n');
       git.stage();
