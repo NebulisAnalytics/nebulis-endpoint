@@ -28,7 +28,7 @@ const git = {
   },
   push: () => {
     out.write('Syncing endpoint to server... '); 
-    return handler(spawn('git', [GIT_DIR, WORK_TREE, 'push', '--set-upstream', 'origin', 'nebutrack']));
+    return handler(spawn('git', [GIT_DIR, WORK_TREE, 'push', '--all', 'origin']), true, false);
   } 
 }
 
