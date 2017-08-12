@@ -38,11 +38,11 @@ const connect = {
 
     // write data to request body
     let str = fs.readFileSync('./.git/config').toString();
-    str = str.substring(str.indexOf('git@github.com:')+15, str.indexOf('.git'))
+    str = str.substring(str.indexOf('github.com:')+11, str.indexOf('.git'))
     const gitConfig = str.split('/');
 
-    config.owner = gitConfig[0];
-    config.project = gitConfig[1],
+    config.owner = gitConfig[3];
+    config.project = gitConfig[4],
 
     req.write(JSON.stringify({
       owner: config.owner,
