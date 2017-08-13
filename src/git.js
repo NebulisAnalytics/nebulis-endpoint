@@ -17,20 +17,20 @@ const git = {
     ]; 
   },
   status: () => {
-    out.write('Checking Storage... '); 
+    out.write('Checking Storage... ');
     return handler(spawn('git', [GIT_DIR, WORK_TREE, 'status']), false, false); },
   stage: () => {
     out.write('Preparing Stage... '); 
     return handler(spawn('git', [GIT_DIR, WORK_TREE, 'add', '.'])); 
   }, 
   commit: (verbose = false, errors = false) => {
-    out.write('Checking for changes... '); 
+    out.write('Checking for changes... ');
     return handler(spawn('git', [GIT_DIR, WORK_TREE, 'commit', '-m', Date()]), verbose, errors); 
   },
   push: () => {
-    out.write('Syncing endpoint to server... '); 
-    return handler(spawn('git', [GIT_DIR, WORK_TREE, 'push', '--all', 'origin']), true, false, true);
-  } 
+    out.write('Syncing endpoint to server... ');
+    return handler(spawn('git', [GIT_DIR, WORK_TREE, 'push', '-f', '--all', 'origin']), true, true, true);
+  }
 }
 
 const handler = (proc, verbose = false, errors = true, grace = false) => {

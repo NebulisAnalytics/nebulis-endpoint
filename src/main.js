@@ -36,7 +36,11 @@ const main = () => {
   git.stage();
   git.commit();
 
-  watch(process.cwd(), { recursive: true }, function(event, filename) {
+  const filter = (name) => {
+    return !/\.nebugit|\.git|node_modules/.test(name);
+  };
+
+  watch(process.cwd(), { recursive: true, filter }, function(event, filename) {
     if (filename) {
       out.write('\nFile was modified: '.blue + filename.blue + '\n');
       git.stage();
