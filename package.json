@@ -3,7 +3,7 @@
   "engines": {
     "node": ">=5.0"
   },
-  "version": "0.3.4",
+  "version": "0.3.7",
   "description": "Endpoint for Nebulis code monitoring",
   "main": "index.js",
   "scripts": {
@@ -29,14 +29,13 @@
     "eslint-config-airbnb-base": "^11.3.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "2.0.1",
-    "mocha": "^3.5.0"
-  },
-  "dependencies": {
+    "mocha": "^3.5.0",
     "babel-core": "^6.25.0",
     "babel-helpers": "^6.24.1",
-    "babel-polyfill": "^6.23.0",
+    "babel-polyfill": "^6.23.0"
+  },
+  "dependencies": {
     "colors": "^1.1.2",
-    "node-watch": "^0.5.5",
-    "nodemon": "^1.11.0"
+    "node-watch": "^0.5.5"
   }
 }
