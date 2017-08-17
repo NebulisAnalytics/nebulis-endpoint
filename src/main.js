@@ -3,6 +3,7 @@ import fs from 'fs';
 import colors from 'colors';
 import messages from './messages';
 import git from './git';
+import getDetails from './getDetails';
 import connect from './connect';
 import watch from 'node-watch';
 
@@ -16,22 +17,47 @@ console.log(process.cwd());
 
 messages.logo();
 
-try {
-  config = require(process.cwd() + `/.nebulis.json`);
-  if (!config.server || !config.port) { throw 'error'; }
+//////////////////////////////////
+// The order:
+// 1. check if project has .nebulis server details
+// 2. check if the repo is initiated.
+//  a. try to extract git config data for the github user
+//  b. check to see if we have .nebulis user details
+//    I. prompt for user to enter details
+//    II. init the local repo
+//
 
-  connect.init(config);
-} catch (err) {
-  out.write('Welcome to Nebulis. To get started please insert a .nebulis.json file in your app directory, per the instructions.')
-} 
-
-const main = () => {
-  out.write('\nNebulis endpoint is connected\n'.yellow);
+const start = () => {
+//TODO: detect if this is endpoint has user name info stored already.
 
   if (git.status().stderr.toString().indexOf('Not a git repository') >= 0) {
+
     out.write('[NEW ENDPOINT DETECTED]\n'.red);
+
+    //read configuration data from git config file
+    let str = fs.readFileSync('./.git/config').toString();
+    str = str.substring(str.indexOf('github.com')+11, str.indexOf('.git'));
+    const gitConfig = str.split('/');
+
+    // these are for reference
+    // config.owner = gitConfig[0];
+    // config.project = gitConfig[1];
+    getDetails(gitConfig[0], gitConfig[1]);
+
+  } else main();
+
+}
+
+const receivedDetails = (details) => {
+  connect.init(details, () => {
     git.init(config.remote);
-  }
+    main();
+  });
+}
+
+const main = () => {
+
+  out.write('\nNebulis endpoint is connected\n'.yellow);
 
   git.stage();
   git.commit();
@@ -58,4 +84,18 @@ const main = () => {
 
 }
 
-export { main as default };
+//1. check if project has .nebulis server details
+try {
+  config = require(process.cwd() + `/.nebulis.json`);
+  if (!config.server || !config.port) { throw 'error'; }
+  else {
+    start();
+  }
+
+} catch (err) {
+  console.log(err);
+
+  out.write('Welcome to Nebulis. To get started please insert a .nebulis.json file in your app directory, per the instructions.')
+} 
+
+export { main, start, receivedDetails};
