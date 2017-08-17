@@ -11,8 +11,6 @@ const connect = {
       method: 'POST',
     };
 
-    console.log(config);
-
     var req = http.request(options, function(res) {
       let body = '';
       // console.log('STATUS: ' + res.statusCode);
@@ -39,7 +37,7 @@ const connect = {
     });
 
     req.write(JSON.stringify({
-      owner: config.owner,
+      owners: config.owners,
       project: config.project,
     }));
     req.end(); 
