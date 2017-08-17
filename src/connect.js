@@ -1,15 +1,17 @@
 import fs from 'fs';
-import main from './main'
+import {receivedDetails} from './main'
 var http = require('http');
 
 const connect = {
-  init: (config) => {
+  init: (config, cb) => {
     const options = {
       host: config.server,
       port: config.port,
       path: '/api/endpoints/establish',
       method: 'POST',
     };
+
+    console.log(config);
 
     var req = http.request(options, function(res) {
       let body = '';
@@ -25,7 +27,7 @@ const connect = {
         config.remote = JSON.parse(body).remote;
         if(id !== undefined) {
           console.log('Endpoint ID: ' + id);
-          main();
+          cb();
         } else {
           console.log('Endpoint Error');
         }
