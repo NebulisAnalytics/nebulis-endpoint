@@ -1,3 +1,5 @@
+import {receivedDetails} from './main' 
+
 const readline = require('readline');
 
 const prompter = (sayStuff, processIn, defaultAnswer) => {
@@ -54,8 +56,7 @@ const getNextMember = () => {
 };
 
 const exit = () => {
-  console.log(config);
-  console.log('exiting');
+  receivedDetails();
 }
 
 export { getDetails as default };

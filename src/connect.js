@@ -29,20 +29,12 @@ const connect = {
         } else {
           console.log('Endpoint Error');
         }
-      })
+      });
     });
 
     req.on('error', function(e) {
       console.log('problem with request: ' + e.message);
     });
-
-    // write data to request body
-    let str = fs.readFileSync('./.git/config').toString();
-    str = str.substring(str.indexOf('github.com')+11, str.indexOf('.git'));
-    const gitConfig = str.split('/');
-
-    config.owner = gitConfig[0];
-    config.project = gitConfig[1];
 
     req.write(JSON.stringify({
       owner: config.owner,

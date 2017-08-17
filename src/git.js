@@ -37,7 +37,7 @@ const handler = (proc, verbose = false, errors = true, grace = false) => {
   if (proc.stderr.length < 1 || errors === false) { 
     verbose ? out.write(` ${'[DONE]\n'.magenta} ${proc.stdout.toString().red}`) : out.write(' [DONE]\n'.magenta);
   } else {
-    if (errors && !grace) outErr.write(`${'[ERROR]'.red} output: "${proc.stderr}"`);
+    if (errors && !grace) outErr.write(`${'[ERROR]'.red}\noutput: "${proc.stderr}"`);
     else if (grace) out.write(`[DONE]\n${proc.stderr}`);
   }
   return proc;
