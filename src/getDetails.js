@@ -20,6 +20,7 @@ const out = process.stdout;
 
 const getDetails = (GitName, project) => {
   config.owners = [];
+  config.project = project;
 
   const owner = {};
 
@@ -31,7 +32,7 @@ const getDetails = (GitName, project) => {
       owner.username = res;
       config.owners.push(owner);
       checkForNextMember();
-    }, owner);
+    }, GitName);
   });
 };
 const checkForNextMember = () => {
@@ -56,7 +57,7 @@ const getNextMember = () => {
 };
 
 const exit = () => {
-  receivedDetails();
+  receivedDetails(config);
 }
 
 export { getDetails as default };
