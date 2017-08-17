@@ -1,30 +1,61 @@
 const readline = require('readline');
 
-const prompter = (sayStuff, processIn) => {
+const prompter = (sayStuff, processIn, defaultAnswer) => {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
   });
   rl.question(sayStuff, (answer) => {
     rl.close();
-    processIn(answer);
+    if (answer.length < 1 && defaultAnswer) processIn(defaultAnswer);
+    else if (answer.length < 1) prompter(sayStuff, processIn, defaultAnswer);
+    else processIn(answer);
   });
 };
 
-const getDetails = () => {
-  const out = process.stdout;
+const config = require(process.cwd() + '/.nebulis.json');
+const out = process.stdout;
 
-  out.write('\nWelcome to Nebulis Analytics 🔥');
+const getDetails = (GitName, project) => {
+  config.owners = [];
 
-  prompter('\n\nPlease enter your full name [John Doe]:', () => {
-    prompter('\nWe have detected your github username is <>\nPress enter to confirm [John Doe]:', () => {
-      prompter('\nWhat is your team members full name? []:', () => {
-        prompter('\nWhat is your team members github username? []:', () => {});
-      });
+  const owner = {};
+
+  out.write('\nWelcome to Nebulis Analytics 🔥\n');
+
+  prompter('\nPlease enter your full name [ex: John Doe]:', (res) => {
+    owner.fullName = res
+    prompter('\nWe have detected your github username is ' + GitName + '\nPress enter to confirm [' + GitName + ']:', (res) => {
+      owner.username = res;
+      config.owners.push(owner);
+      checkForNextMember();
+    }, owner);
+  });
+};
+const checkForNextMember = () => {
+  prompter('\nDo you have any additional team members? [Y/n]:', (res) => {
+    if (res === 'Y') {
+      getNextMember();
+    } else if (res === 'n') exit();
+    else checkForNextMember();
+  });
+}
+
+const getNextMember = () => {
+  const owner = {};
+  prompter('\nWhat is your team members full name? []:', (res) => {
+    owner.fullName = res
+    prompter('\nWhat is your team members github username? []:', (res) => {
+      owner.username = res;
+      config.owners.push(owner);
+      checkForNextMember();
     });
   });
+};
 
-  out.write('\n');
+const exit = () => {
+  console.log(config);
+  console.log('exiting');
 }
 
 export { getDetails as default };
