@@ -1,4 +1,5 @@
-# Nebulis Coding Analytics Endpoint &middot; ![TravisCI Status](https://img.shields.io/travis/NebulisAnalytics/nebulis-endpoint.svg) [![Coverage Status](https://coveralls.io/repos/github/NebulisAnalytics/nebulis-endpoint/badge.svg?branch=master)](https://coveralls.io/github/NebulisAnalytics/nebulis-endpoint?branch=master) [![Known Vulnerabilities](https://snyk.io/test/github/NebulisAnalytics/nebulis-endpoint/badge.svg)](https://snyk.io/test/github/NebulisAnalytics/nebulis-endpoint)
+# Nebulis Coding Analytics Endpoint
+![TravisCI Status](https://img.shields.io/travis/NebulisAnalytics/nebulis-server.svg) ![Coverage Status](https://coveralls.io/repos/github/NebulisAnalytics/nebulis-server/badge.svg?branch=master) [![Known Vulnerabilities](https://snyk.io/test/github/NebulisAnalytics/nebulis-endpoint/badge.svg)](https://snyk.io/test/github/NebulisAnalytics/nebulis-endpoint) [![npm version](https://badge.fury.io/js/nebulis-endpoint.svg)](https://badge.fury.io/js/nebulis-endpoint)
 
 This is the endpoint for tracking Nebulis coding projects.
 
